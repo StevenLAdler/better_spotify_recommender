@@ -32,25 +32,26 @@ def convert_song(spotify_session: Spotify,
         ss.set_track()
         return ss
 
+def get_lastfm_network():
+    lastfm_network = LastFMNetwork(api_key = config.lastfm_key, 
+                                   api_secret = config.lastfm_secret, 
+                                   username = config.lastfm_username, 
+                                   password_hash = config.lastfm_pass)
 
-scope = 'playlist-read-private'
-config = Config('config.json')
+def get_spotify_session(config, scope = 'playlist-read-private'):
+    token = util.prompt_for_user_token(config.username,
+                                       scope,
+                                       config.client_id,
+                                       config.client_secret,
+                                       redirect_uri='http://localhost/')
+    if token:    
+        return(Spotify(auth=token))
+    else: 
+        raise Exception("Failed Spotify auth flow")
 
-base_songs_pl = 'https://open.spotify.com/playlist/4cU6aKcZOTMK8rVNJvkz7r?si=6c097cde821f4a9e'
+if __name__ == '__main__':
+    config = Config('config.json')
+    lastfm_network = get_lastfm_network()
+    spotify_session = get_spotify_session()
 
-token = util.prompt_for_user_token(config.username,
-                                   scope,
-                                   config.client_id,
-                                   config.client_secret,
-                                   redirect_uri='http://localhost/')
-
-if token:    
-    sp = Spotify(auth=token)
-else: 
-    raise Exception("Failed Spotify auth flow")
-
-lastfm_network = LastFMNetwork(api_key = config.lastfm_key, 
-                               api_secret = config.lastfm_secret, 
-                               username = config.lastfm_username, 
-                               password_hash = config.lastfm_pass)
     

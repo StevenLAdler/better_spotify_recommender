@@ -7,7 +7,7 @@ class LastFMSong:
         self.artist = artist
         self.title = title
         self.album = album
-        
+        self.track = None
 
     def set_track(self):
         try:
@@ -20,5 +20,7 @@ class LastFMSong:
         tags = [tag.item.get_name() for tag in self.track[0].get_top_tags() if tag.weight=="100"]
         return tags
 
-    
-
+    @property
+    def get_track(self):
+        if self.track:
+            return self.track

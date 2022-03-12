@@ -3,13 +3,12 @@ from spotipy import Spotify
         
 class SpotifySong:
     def __init__(self, spotify_session: Spotify, song_url=None, title=None, artist=None, album=None):
-        
+        self.spotify_session = spotify_session
         self.song_url = song_url
         self.title = title
         self.artist = artist
         self.album = album
         self.track = None
-        self.spotify_session = spotify_session
 
     def set_track(self):
         if self.track:
@@ -35,18 +34,7 @@ class SpotifySong:
             except IndexError:
                 print(f"Failed to find track {self.artist} - {self.title}")
 
-
     @property
     def get_track(self):
         if self.track:
             return self.track
-
-    @property
-    def get_attributes(self):
-        if self.track:
-            return self.track
-        
-    @property
-    def acousticness(self):
-        if self.track:
-            pass
