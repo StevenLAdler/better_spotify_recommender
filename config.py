@@ -1,5 +1,4 @@
 import json
-import pylast
         
 class Config:
     def __init__(self, config_path):
@@ -49,11 +48,3 @@ class Config:
     def lastfm_pass(self):
         if self.config:
             return self.config['LASTFM']['PASS_HASH']
-
-    @property
-    def lastfm_network(self):
-        if self.config:
-            return pylast.LastFMNetwork(api_key = self.config.lastfm_key, 
-                                        api_secret = self.config.lastfm_secret, 
-                                        username = self.config.lastfm_username, 
-                                        password_hash = self.config.lastfm_pass)

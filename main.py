@@ -1,3 +1,4 @@
+from random import gauss
 from config import Config
 
 from spotipy import Spotify, util
@@ -17,26 +18,27 @@ def convert_song(spotify_session: Spotify,
         return
 
     if spotify_song:
-        ls = LastFMSong(lastfm_network=lastfm_network, 
+        song = LastFMSong(lastfm_network=lastfm_network, 
                         artist=spotify_song.track['artists'][0]['name'], 
                         title=spotify_song.track['name'], 
                         album=spotify_song.track['album']['name'])
-        ls.set_track()
-        return ls
+        song.set_track()
+        return song
 
     elif lastfm_song:
-        ss = SpotifySong(spotify_session=spotify_session,
+        song = SpotifySong(spotify_session=spotify_session,
                          artist=lastfm_song.artist,
                          title=lastfm_song.title,
                          album=lastfm_song.album)
-        ss.set_track()
-        return ss
+        song.set_track()
+        return song
 
 def get_lastfm_network():
     lastfm_network = LastFMNetwork(api_key = config.lastfm_key, 
                                    api_secret = config.lastfm_secret, 
                                    username = config.lastfm_username, 
                                    password_hash = config.lastfm_pass)
+    return(lastfm_network)
 
 def get_spotify_session(config, scope = 'playlist-read-private'):
     token = util.prompt_for_user_token(config.username,
@@ -45,13 +47,14 @@ def get_spotify_session(config, scope = 'playlist-read-private'):
                                        config.client_secret,
                                        redirect_uri='http://localhost/')
     if token:    
-        return(Spotify(auth=token))
+        spotify_session = Spotify(auth=token)
     else: 
         raise Exception("Failed Spotify auth flow")
+
+    return(spotify_session)
 
 if __name__ == '__main__':
     config = Config('config.json')
     lastfm_network = get_lastfm_network()
     spotify_session = get_spotify_session()
-
     
