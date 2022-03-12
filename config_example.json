@@ -1,0 +1,16 @@
+{
+    "SPOTIFY" :
+        {
+            "CLIENT_ID"      : "",
+            "CLIENT_SECRET"  : "",
+            "USERNAME"       : ""
+        },
+
+    "LASTFM" :
+        {
+            "API_KEY"        : "",
+            "SHARED_SECRET"  : "",
+            "USERNAME"       : "",
+            "PASS_HASH"      : ""
+        }
+}
