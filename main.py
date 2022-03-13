@@ -33,7 +33,7 @@ def convert_song(spotify_session: Spotify,
         song.set_track()
         return song
 
-def get_lastfm_network():
+def get_lastfm_network(config):
     lastfm_network = LastFMNetwork(api_key = config.lastfm_key, 
                                    api_secret = config.lastfm_secret, 
                                    username = config.lastfm_username, 
@@ -55,6 +55,6 @@ def get_spotify_session(config, scope = 'playlist-read-private'):
 
 if __name__ == '__main__':
     config = Config('config.json')
-    lastfm_network = get_lastfm_network()
-    spotify_session = get_spotify_session()
+    lastfm_network = get_lastfm_network(config)
+    spotify_session = get_spotify_session(config)
     

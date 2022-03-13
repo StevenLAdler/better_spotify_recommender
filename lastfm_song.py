@@ -12,7 +12,7 @@ class LastFMSong:
     def set_track(self):
         try:
             self.track = self.lastfm_network.search_for_track(artist_name=self.artist,
-                                                     track_name=self.title).get_next_page()[0]
+                                                              track_name=self.title).get_next_page()[0]
         except IndexError:
                 print(f"Failed to find track {self.artist} - {self.title}")
 

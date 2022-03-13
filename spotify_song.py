@@ -9,6 +9,7 @@ class SpotifySong:
         self.artist = artist
         self.album = album
         self.track = None
+        self.features = None
 
     def set_track(self):
         if self.track:
@@ -34,7 +35,19 @@ class SpotifySong:
             except IndexError:
                 print(f"Failed to find track {self.artist} - {self.title}")
 
+    #https://developer.spotify.com/documentation/web-api/reference/#/operations/get-audio-features
+    def set_features(self):
+        if not self.track:
+            print("no track set")
+            return
+        self.features = self.spotify_session.audio_features([self.track['id']])[0]
+
     @property
     def get_track(self):
         if self.track:
             return self.track
+
+    @property
+    def get_features(self):
+        if self.features:
+            return self.features
