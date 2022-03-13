@@ -1,4 +1,3 @@
-from random import gauss
 from config import Config
 
 from spotipy import Spotify, util
@@ -46,8 +45,7 @@ class PlatformUtil:
                      lastfm_song: LastFMSong = None):
         
         if spotify_song and lastfm_song:
-            print("both spotify and lastfm song provided, no valid conversion")
-            return
+            raise Exception("both spotify and lastfm song provided, no valid conversion")
 
         if spotify_song:
             song = LastFMSong(lastfm_network=self.lastfm_network,
@@ -76,5 +74,9 @@ if __name__ == '__main__':
         spotify_song = pu.spotify_song(song_url='https://open.spotify.com/track/5pgZpHqfv4TSomtkfGZGrG?si=a2ab9879ed114407')
         lastfm_song = pu.convert_song(spotify_song=spotify_song)
 
-        print(lastfm_song.get_song_genres())
+        spotify_song.set_features()
+        lastfm_song.set_song_tags()
+
+        print(spotify_song.features)
+        print(lastfm_song.tags)
         

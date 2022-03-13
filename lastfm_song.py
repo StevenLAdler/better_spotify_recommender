@@ -1,4 +1,3 @@
-import json
 from pylast import LastFMNetwork
         
 class LastFMSong:
@@ -8,6 +7,7 @@ class LastFMSong:
         self.artist = artist
         self.album = album
         self.track = None
+        self.tags = None
 
     def set_track(self):
         try:
@@ -16,6 +16,5 @@ class LastFMSong:
         except IndexError:
                 print(f"Failed to find track {self.artist} - {self.title}")
 
-    def get_song_genres(self):
-        tags = [tag.item.get_name() for tag in self.track.get_top_tags() if float(tag.weight)>90]
-        return tags
+    def set_song_tags(self, weight=90):
+        self.tags = [tag.item.get_name() for tag in self.track.get_top_tags() if float(tag.weight)>weight]

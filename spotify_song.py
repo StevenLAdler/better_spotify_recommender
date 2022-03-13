@@ -1,4 +1,3 @@
-import json
 from spotipy import Spotify
         
 class SpotifySong:
@@ -13,11 +12,11 @@ class SpotifySong:
 
     def set_track(self):
         if self.track:
+            print("track already set")
             return
 
         if not self.song_url and not (self.title and self.artist):
-            print("song url and song attributes not set")
-            return 
+            raise Exception("song url and song attributes not set") 
 
         if self.song_url:
             self.track = self.spotify_session.track(track_id = self.song_url)
@@ -38,7 +37,5 @@ class SpotifySong:
     #https://developer.spotify.com/documentation/web-api/reference/#/operations/get-audio-features
     def set_features(self):
         if not self.track:
-            print("no track set")
-            return
+            raise Exception("no track set")
         self.features = self.spotify_session.audio_features([self.track['id']])[0]
-        
