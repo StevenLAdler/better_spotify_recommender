@@ -41,13 +41,4 @@ class SpotifySong:
             print("no track set")
             return
         self.features = self.spotify_session.audio_features([self.track['id']])[0]
-
-    @property
-    def get_track(self):
-        if self.track:
-            return self.track
-
-    @property
-    def get_features(self):
-        if self.features:
-            return self.features
+        

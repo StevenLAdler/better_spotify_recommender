@@ -2,10 +2,10 @@ import json
 from pylast import LastFMNetwork
         
 class LastFMSong:
-    def __init__(self, lastfm_network: LastFMNetwork, artist, title, album=None):
+    def __init__(self, lastfm_network: LastFMNetwork, title, artist, album=None):
         self.lastfm_network = lastfm_network
-        self.artist = artist
         self.title = title
+        self.artist = artist
         self.album = album
         self.track = None
 
@@ -17,10 +17,5 @@ class LastFMSong:
                 print(f"Failed to find track {self.artist} - {self.title}")
 
     def get_song_genres(self):
-        tags = [tag.item.get_name() for tag in self.track[0].get_top_tags() if tag.weight=="100"]
+        tags = [tag.item.get_name() for tag in self.track.get_top_tags() if float(tag.weight)>90]
         return tags
-
-    @property
-    def get_track(self):
-        if self.track:
-            return self.track
