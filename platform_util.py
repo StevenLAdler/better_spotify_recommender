@@ -33,12 +33,14 @@ class PlatformUtil:
     def spotify_song(self, song_url=None, title=None, artist=None, album=None):
         song = SpotifySong(self.spotify_session, song_url, title, artist, album)
         song.set_track()
-        return(song)
+        song.set_features()
+        return song
 
-    def lastfm_song(self, artist, title, album=None):
+    def lastfm_song(self, title, artist, album=None):
         song = LastFMSong(self.lastfm_network, title, artist, album)
         song.set_track()
-        return(song)
+        song.set_song_tags()
+        return song
 
     def convert_song(self, 
                      spotify_song: SpotifySong = None, 
@@ -48,19 +50,15 @@ class PlatformUtil:
             raise Exception("both spotify and lastfm song provided, no valid conversion")
 
         if spotify_song:
-            song = LastFMSong(lastfm_network=self.lastfm_network,
-                              title=spotify_song.track['name'],  
-                              artist=spotify_song.track['artists'][0]['name'], 
-                              album=spotify_song.track['album']['name'])
-            song.set_track()
+            song = self.lastfm_song(title=spotify_song.track['name'],  
+                                    artist=spotify_song.track['artists'][0]['name'], 
+                                    album=spotify_song.track['album']['name'])
             return song
 
         elif lastfm_song:
-            song = SpotifySong(spotify_session=self.spotify_session,
-                               artist=lastfm_song.artist,
-                               title=lastfm_song.title,
-                               album=lastfm_song.album)
-            song.set_track()
+            song = self.spotify_song(title=lastfm_song.title,
+                                     artist=lastfm_song.artist,
+                                     album=lastfm_song.album)
             return song
 
 if __name__ == '__main__':
@@ -74,9 +72,5 @@ if __name__ == '__main__':
         spotify_song = pu.spotify_song(song_url='https://open.spotify.com/track/5pgZpHqfv4TSomtkfGZGrG?si=a2ab9879ed114407')
         lastfm_song = pu.convert_song(spotify_song=spotify_song)
 
-        spotify_song.set_features()
-        lastfm_song.set_song_tags()
-
         print(spotify_song.features)
         print(lastfm_song.tags)
-        
