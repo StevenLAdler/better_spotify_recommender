@@ -8,10 +8,18 @@ from lastfm_song import LastFMSong
 
 
 class PlatformUtil:
-    def __init__(self, config):
-        self.config = config
+    def __init__(self, config_path):
+        self.config = config_path
         self.lastfm_network = None
         self.spotify_session = None
+
+    @property
+    def config(self):
+        return self.__config
+
+    @config.setter
+    def config(self, config_path):
+        self.__config = Config(config_path)
 
     def set_lastfm_network(self):
         self.lastfm_network = LastFMNetwork(api_key = self.config.lastfm_key, 
@@ -42,6 +50,10 @@ class PlatformUtil:
         song.set_song_tags()
         return song
 
+    def spotify_playlist(self, playlist_url):
+        self.spotify_session.playlist(playlist_url)
+        return [spotify_song(song_url = song['track']['external_urls']['spotify']) for song in playlist['tracks']['items']]
+
     def convert_song(self, 
                      spotify_song: SpotifySong = None, 
                      lastfm_song: LastFMSong = None):
@@ -62,8 +74,8 @@ class PlatformUtil:
             return song
 
 if __name__ == '__main__':
-        config = Config('config.json')
-        pu = PlatformUtil(config)
+        path = 'config.json'
+        pu = PlatformUtil(path)
 
         pu.set_lastfm_network()
         pu.set_spotify_session()
