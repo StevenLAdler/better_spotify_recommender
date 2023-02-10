@@ -20,6 +20,8 @@ class SpotifySong:
 
         if self.song_url:
             self.track = self.spotify_session.track(track_id = self.song_url)
+            self.title = self.track['name']
+            self.artist = self.track['artists'][0]['name']
             return
 
         if self.title and self.artist:

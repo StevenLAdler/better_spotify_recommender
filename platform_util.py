@@ -51,8 +51,8 @@ class PlatformUtil:
         return song
 
     def spotify_playlist(self, playlist_url):
-        self.spotify_session.playlist(playlist_url)
-        return [spotify_song(song_url = song['track']['external_urls']['spotify']) for song in playlist['tracks']['items']]
+        playlist = self.spotify_session.playlist(playlist_url)
+        return [self.spotify_song(song_url = song['track']['external_urls']['spotify']) for song in playlist['tracks']['items']]
 
     def convert_song(self, 
                      spotify_song: SpotifySong = None, 
